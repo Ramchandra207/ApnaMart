@@ -1,0 +1,20 @@
+{
+  "name": "jiet-marketplace",
+  "private": true,
+  "version": "1.0.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "npm --workspace apps/api run dev",
+    "dev:web": "npm --workspace apps/web run dev",
+    "dev:admin": "npm --workspace apps/admin run dev",
+    "build": "npm --workspace apps/web run build && npm --workspace apps/admin run build",
+    "seed": "node scripts/seed.js",
+    "start": "npm --workspace apps/api run start"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

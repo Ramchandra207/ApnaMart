@@ -1,0 +1,20 @@
+{
+  "info": {
+    "name": "JIET Marketplace API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    { "name": "Auth: Login", "request": { "method": "POST", "url": "{{base}}/auth/login", "body": { "mode": "raw", "raw": "{\"email\":\"admin@jietmart.com\",\"password\":\"Admin@123\"}" }, "header": [{"key":"Content-Type","value":"application/json"}] } },
+    { "name": "Auth: Register", "request": { "method": "POST", "url": "{{base}}/auth/register", "body": { "mode": "raw", "raw": "{\"name\":\"Test\",\"email\":\"test@x.com\",\"password\":\"Test@123\"}" }, "header": [{"key":"Content-Type","value":"application/json"}] } },
+    { "name": "Products: List", "request": { "method": "GET", "url": "{{base}}/products?limit=10" } },
+    { "name": "Products: Detail", "request": { "method": "GET", "url": "{{base}}/products/:slug" } },
+    { "name": "Vendors: List", "request": { "method": "GET", "url": "{{base}}/vendors" } },
+    { "name": "Cart: Add", "request": { "method": "POST", "url": "{{base}}/cart/add", "header": [{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}], "body": { "mode": "raw", "raw": "{\"productId\":\"PRODUCT_ID\",\"qty\":1}" } } },
+    { "name": "Orders: Place", "request": { "method": "POST", "url": "{{base}}/orders", "header": [{"key":"Authorization","value":"Bearer {{token}}"},{"key":"Content-Type","value":"application/json"}], "body": { "mode": "raw", "raw": "{\"address\":{\"fullName\":\"X\",\"line1\":\"1\",\"city\":\"Jodhpur\",\"state\":\"RJ\",\"pincode\":\"342001\",\"phone\":\"9800000000\"},\"paymentMode\":\"cod\"}" } } },
+    { "name": "Admin: Report Summary", "request": { "method": "GET", "url": "{{base}}/reports/summary", "header": [{"key":"Authorization","value":"Bearer {{token}}"}] } }
+  ],
+  "variable": [
+    { "key": "base", "value": "http://localhost:5000/api" },
+    { "key": "token", "value": "" }
+  ]
+}
