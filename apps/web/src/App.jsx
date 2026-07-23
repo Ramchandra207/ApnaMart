@@ -22,9 +22,9 @@ function Header() {
   const { cart } = useCart();
   const nav = useNavigate();
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-stone-200">
+    <header className="sticky top-0 z-30 border-b border-stone-200/80 bg-white/95 shadow-sm backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center gap-6">
-        <Link to="/" className="font-display text-2xl text-brand-dark">JIET Fashion Mart</Link>
+        <Link to="/" className="font-display text-2xl text-brand-dark transition hover:text-brand">Apna Mart</Link>
         <nav className="hidden md:flex gap-5 text-sm text-stone-700">
           <Link to="/products">Shop</Link>
           <Link to="/vendors">Vendors</Link>
@@ -32,7 +32,7 @@ function Header() {
           <Link to="/cms/contact">Contact</Link>
         </nav>
         <div className="flex-1" />
-        <Link to="/cart" className="relative text-sm">
+          <Link to="/cart" className="relative rounded-full px-3 py-2 text-sm transition hover:bg-amber-50">
           Cart
           {cart?.items?.length ? <span className="absolute -top-2 -right-3 bg-brand text-white text-xs rounded-full w-5 h-5 grid place-items-center">{cart.items.length}</span> : null}
         </Link>
@@ -54,8 +54,8 @@ function Footer() {
     <footer className="mt-16 bg-stone-900 text-stone-300">
       <div className="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-4 gap-8 text-sm">
         <div>
-          <div className="font-display text-white text-xl">JIET Fashion Mart</div>
-          <p className="mt-2 text-stone-400">A multi-vendor fashion marketplace by JIET MERN interns.</p>
+          <div className="font-display text-white text-xl">Apna Mart</div>
+          <p className="mt-2 text-stone-400">Your multi-vendor fashion marketplace.</p>
         </div>
         <div>
           <div className="text-white font-semibold mb-2">Shop</div>
@@ -70,7 +70,7 @@ function Footer() {
           <ul className="space-y-1"><li><Link to="/cms/privacy">Privacy Policy</Link></li><li><Link to="/cms/terms">Terms</Link></li></ul>
         </div>
       </div>
-      <div className="text-center py-4 text-stone-500 text-xs border-t border-stone-800">© {new Date().getFullYear()} JIET Fashion Mart</div>
+      <div className="text-center py-4 text-stone-500 text-xs border-t border-stone-800">© {new Date().getFullYear()} Apna Mart</div>
     </footer>
   );
 }

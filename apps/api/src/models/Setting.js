@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const settingSchema = new mongoose.Schema(
   {
     key: { type: String, default: "global", unique: true },
-    businessName: { type: String, default: "JIET Fashion Mart" },
+    businessName: { type: String, default: "Apna Mart" },
     logo: String,
     favicon: String,
     contactEmail: String,

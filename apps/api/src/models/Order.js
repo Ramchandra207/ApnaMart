@@ -50,6 +50,15 @@ const orderSchema = new mongoose.Schema(
       index: true,
     },
     timeline: [timelineEventSchema],
+    returnRequests: [
+      {
+        itemId: { type: mongoose.Schema.Types.ObjectId },
+        reason: String,
+        status: { type: String, enum: ["requested", "approved", "rejected", "refunded"], default: "requested" },
+        note: String,
+        requestedAt: { type: Date, default: Date.now },
+      },
+    ],
   },
   { timestamps: true }
 );

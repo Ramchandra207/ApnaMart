@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { api, money } from "../lib/api.js";
+import { imageUrl } from "../lib/images.js";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
@@ -43,12 +44,12 @@ export default function ProductDetail() {
       <div className="grid md:grid-cols-2 gap-10">
         <div>
           <div className="aspect-square bg-stone-100 rounded-lg overflow-hidden">
-            <img src={p.images?.[img]} alt={p.title} className="w-full h-full object-cover" />
+            <img src={imageUrl(p.images?.[img], p.title)} alt={p.title} className="w-full h-full object-cover" />
           </div>
           <div className="mt-3 grid grid-cols-4 gap-2">
             {p.images?.map((src, i) => (
               <button key={i} onClick={() => setImg(i)} className={`aspect-square rounded overflow-hidden border ${i === img ? "border-brand" : "border-stone-200"}`}>
-                <img src={src} alt="" className="w-full h-full object-cover" />
+                <img src={imageUrl(src, `${p.title}-${i}`)} alt="" className="w-full h-full object-cover" />
               </button>
             ))}
           </div>

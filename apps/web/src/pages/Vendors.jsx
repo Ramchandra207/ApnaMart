@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { api } from "../lib/api.js";
+import { imageUrl } from "../lib/images.js";
 
 export default function Vendors() {
   const [vendors, setVendors] = useState([]);
@@ -11,7 +12,7 @@ export default function Vendors() {
       <div className="grid md:grid-cols-3 gap-4">
         {vendors.map((v) => (
           <Link key={v._id} to={`/vendor/${v.slug}`} className="bg-white border rounded overflow-hidden hover:shadow">
-            <div className="h-32 bg-stone-100"><img src={v.banner} alt="" className="w-full h-full object-cover" /></div>
+            <div className="h-32 bg-stone-100"><img src={imageUrl(v.banner, v.storeName)} alt="" className="w-full h-full object-cover" /></div>
             <div className="p-4">
               <div className="font-semibold">{v.storeName}</div>
               <div className="text-sm text-stone-500 mt-1 line-clamp-2">{v.description}</div>

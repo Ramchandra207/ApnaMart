@@ -101,17 +101,50 @@ r.get("/:id", authRequired, async (req, res) => {
   if (!o) return res.status(404).json({ error: "Not found" });
   if (req.user.role === "customer" && String(o.userId._id) !== String(req.user._id))
     return res.status(403).json({ error: "Forbidden" });
+  if (req.user.role === "vendor") {
+    const vendor = await Vendor.findOne({ userId: req.user._id });
+    if (!vendor || !o.items.some((item) => String(item.vendorId) === String(vendor._id)))
+      return res.status(403).json({ error: "Forbidden" });
+  }
   res.json(o);
 });
 
 r.put("/:id/status", authRequired, requireRole("vendor", "admin"), async (req, res) => {
   const { status, note } = req.body;
+  const validStatuses = ["pending", "processing", "shipped", "delivered", "cancelled", "returned"];
+  if (!validStatuses.includes(status)) return res.status(400).json({ error: "Invalid order status" });
   const o = await Order.findById(req.params.id);
   if (!o) return res.status(404).json({ error: "Not found" });
-  o.orderStatus = status;
+  if (req.user.role === "vendor") {
+    const vendor = await Vendor.findOne({ userId: req.user._id });
+    const vendorItems = o.items.filter((item) => String(item.vendorId) === String(vendor?._id));
+    if (!vendorItems.length) return res.status(403).json({ error: "Forbidden" });
+    vendorItems.forEach((item) => { item.status = status === "processing" ? "accepted" : status; });
+    const itemStatuses = o.items.map((item) => item.status);
+    if (itemStatuses.every((itemStatus) => itemStatus === "delivered")) o.orderStatus = "delivered";
+    else if (itemStatuses.every((itemStatus) => itemStatus === "cancelled")) o.orderStatus = "cancelled";
+    else o.orderStatus = status;
+  } else {
+    o.orderStatus = status;
+    o.items.forEach((item) => { item.status = status === "processing" ? "accepted" : status; });
+  }
   o.timeline.push({ status, note, by: req.user._id });
   await o.save();
   res.json(o);
+});
+
+r.post("/:id/returns", authRequired, async (req, res) => {
+  const { itemId, reason } = req.body;
+  const o = await Order.findOne({ _id: req.params.id, userId: req.user._id });
+  if (!o) return res.status(404).json({ error: "Order not found" });
+  const item = o.items.id(itemId);
+  if (!item) return res.status(400).json({ error: "Order item not found" });
+  if (item.status !== "delivered") return res.status(400).json({ error: "Only delivered items can be returned" });
+  if (o.returnRequests.some((request) => String(request.itemId) === String(itemId))) return res.status(409).json({ error: "Return already requested" });
+  o.returnRequests.push({ itemId, reason });
+  o.timeline.push({ status: "return-requested", note: `Return requested: ${reason}`, by: req.user._id });
+  await o.save();
+  res.status(201).json(o);
 });
 
 export default r;

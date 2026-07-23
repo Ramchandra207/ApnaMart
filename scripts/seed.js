@@ -20,9 +20,9 @@ import CmsPage from "../apps/api/src/models/CmsPage.js";
 import Setting from "../apps/api/src/models/Setting.js";
 import Review from "../apps/api/src/models/Review.js";
 
-const MONGO = process.env.MONGO_URI || "mongodb://localhost:27017/jiet_marketplace";
+const MONGO = process.env.MONGO_URI || "mongodb://localhost:27017/Apna Mart";
 
-const img = (q) => `https://source.unsplash.com/800x800/?fashion,${encodeURIComponent(q)}`;
+const img = () => "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=1000&q=85";
 
 const CATEGORIES = [
   { name: "Men's Clothing", image: img("mens-clothing"), featured: true },
@@ -33,9 +33,21 @@ const CATEGORIES = [
 ];
 
 const VENDORS = [
-  { store: "Urban Threads", email: "vendor1@jietmart.com", desc: "Contemporary streetwear and everyday essentials." },
-  { store: "Ethnic Bazaar", email: "vendor2@jietmart.com", desc: "Handcrafted Indian ethnic wear from Jaipur artisans." },
-  { store: "Sole Society", email: "vendor3@jietmart.com", desc: "Premium footwear for men and women." },
+  {
+    store: "Fashion Hub",
+    email: "fashionhub@apnamart.com",
+    desc: "Latest fashion collection for men and women."
+  },
+  {
+    store: "Royal Trends",
+    email: "royaltrends@apnamart.com",
+    desc: "Premium ethnic and traditional wear."
+  },
+  {
+    store: "Style World",
+    email: "styleworld@apnamart.com",
+    desc: "Footwear and fashion accessories."
+  },
 ];
 
 const PRODUCT_POOL = [
@@ -93,13 +105,14 @@ async function run() {
   ]);
 
   // Admin
-  const adminPass = await bcrypt.hash("Admin@123", 10);
-  const admin = await User.create({
-    name: "Super Admin",
-    email: "admin@jietmart.com",
-    password: adminPass,
-    role: "admin",
-  });
+// Admin
+const adminPass = await bcrypt.hash("Admin@123", 10);
+const admin = await User.create({
+  name: "Ramchandra Choudhary",
+  email: "ramchandra@apnamart.com",
+  password: adminPass,
+  role: "admin",
+});
 
   // Vendor users + vendor profiles
   const vendorPass = await bcrypt.hash("Vendor@123", 10);
@@ -121,29 +134,30 @@ async function run() {
   }
 
   // Customers
-  const custPass = await bcrypt.hash("Customer@123", 10);
-  const customers = [];
-  for (let i = 1; i <= 10; i++) {
-    const c = await User.create({
-      name: `Customer ${i}`,
-      email: `customer${i}@jietmart.com`,
-      password: custPass,
-      role: "customer",
-      addresses: [
-        {
-          label: "Home",
-          fullName: `Customer ${i}`,
-          phone: `98000000${String(10 + i)}`,
-          line1: `${i} MG Road`,
-          city: "Jodhpur",
-          state: "Rajasthan",
-          pincode: "342001",
-          isDefault: true,
-        },
-      ],
-    });
-    customers.push(c);
-  }
+ // Customers
+const custPass = await bcrypt.hash("Customer@123", 10);
+const customers = [];
+for (let i = 1; i <= 10; i++) {
+  const c = await User.create({
+    name: `Customer ${i}`,
+    email: `customer${i}@apnamart.com`,
+    password: custPass,
+    role: "customer",
+    addresses: [
+      {
+        label: "Home",
+        fullName: `Customer ${i}`,
+        phone: `98000000${String(10 + i)}`,
+        line1: `${i} MG Road`,
+        city: "Jodhpur",
+        state: "Rajasthan",
+        pincode: "342001",
+        isDefault: true,
+      },
+    ],
+  });
+  customers.push(c);
+}
 
   // Categories
   const cats = [];
@@ -253,8 +267,8 @@ async function run() {
   // Settings
   await Setting.create({
     key: "global",
-    businessName: "JIET Fashion Mart",
-    contactEmail: "hello@jietmart.com",
+    businessName: "Apna Mart",
+    contactEmail: "support@apnamart.com",
     contactPhone: "+91 98000 00000",
     address: "Jodhpur, Rajasthan, India",
     socials: { instagram: "https://instagram.com", facebook: "https://facebook.com" },
@@ -266,7 +280,7 @@ async function run() {
       { title: "New Season Arrivals", subtitle: "Up to 40% off on top styles", image: img("fashion-hero"), cta: "/products" },
       { title: "Ethnic Edit", subtitle: "Handcrafted by Indian artisans", image: img("ethnic-hero"), cta: "/products?category=ethnic-wear" },
     ],
-    footer: { about: "JIET Fashion Mart — your multi-vendor fashion marketplace." },
+    footer: { about: "Apna Mart — your multi-vendor fashion marketplace." },
   });
 
   // CMS pages
@@ -282,7 +296,7 @@ async function run() {
         { type: "faq" },
       ],
     },
-    { slug: "about", title: "About Us", sections: [{ type: "richtext", content: "We are a multi-vendor fashion marketplace built by JIET MERN interns." }] },
+    { slug: "about", title: "About Us", sections: [{ type: "richtext", content: "Apna Mart is a multi-vendor fashion marketplace." }] },
     { slug: "contact", title: "Contact", sections: [{ type: "contact-form" }] },
     { slug: "privacy", title: "Privacy Policy", sections: [{ type: "richtext", content: "Your privacy matters to us." }] },
     { slug: "terms", title: "Terms & Conditions", sections: [{ type: "richtext", content: "Standard marketplace terms." }] },
@@ -300,9 +314,9 @@ async function run() {
   ]);
 
   console.log("✔ Seed complete");
-  console.log("  Admin:    admin@jietmart.com / Admin@123");
-  console.log("  Vendor:   vendor1@jietmart.com / Vendor@123");
-  console.log("  Customer: customer1@jietmart.com / Customer@123");
+  console.log("  Admin:    ramchandra@apnamart.com / Admin@123");
+  console.log("  Vendor:   fashionhub@apnamart.com / Vendor@123");
+  console.log("  Customer: ramchandra@apnamart.com / Customer@123");
   await mongoose.disconnect();
 }
 
