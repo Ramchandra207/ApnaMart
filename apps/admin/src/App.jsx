@@ -42,7 +42,7 @@ function Shell({ children }) {
   return (
     <div className="min-h-screen grid grid-cols-[240px_1fr]">
       <aside className="bg-slate-900 text-slate-200 p-4">
-        <div className="font-bold text-lg mb-6">JIET {user.role === "admin" ? "Admin" : "Vendor"}</div>
+        <div className="font-bold text-lg mb-6">Apna Mart {user.role === "admin" ? "Admin" : "Vendor"}</div>
         <nav className="space-y-1 text-sm">
           {items.map((n) => (
             <Link key={n.to} to={n.to} className={`block px-3 py-2 rounded ${loc.pathname === n.to ? "bg-slate-700 text-white" : "hover:bg-slate-800"}`}>{n.label}</Link>
