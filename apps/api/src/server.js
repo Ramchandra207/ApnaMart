@@ -25,7 +25,12 @@ import uploadRoutes from "./routes/upload.routes.js";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 
-app.use(cors({ origin: [process.env.CLIENT_WEB_URL, process.env.CLIENT_ADMIN_URL].filter(Boolean), credentials: true }));
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(express.json({ limit: "5mb" }));
 app.use(morgan("dev"));
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
