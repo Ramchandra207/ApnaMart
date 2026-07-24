@@ -5,10 +5,7 @@ A modern MERN Stack Multi-Vendor E-Commerce Marketplace where customers can brow
 ## 🌐 Live Demo
 
 ### Customer Website
-https://apna-mart.vercel.app
-
-### Admin Dashboard
-https://apna-mart-admin.vercel.app
+https://apna-mart-web.vercel.app
 
 ### Backend API
 https://apnamart-api-fkpg.onrender.com
